@@ -4,7 +4,7 @@
 This project outlines the setup and deployment process for the DevOpsAssignment-Moveo project, including AWS infrastructure setup using Terraform, Docker containerization, Kubernetes deployment, and public access configuration.
 
 ## Table of Contents
-- [AWS Architecture](#AWS Architecture) 📊
+- [AWS Architecture](#aws-architecture) 📊
 - [Repository Setup](#repository-setup) 📁
 - [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform) ⚙️
 - [Docker Containerization](#docker-containerization) 🐳
