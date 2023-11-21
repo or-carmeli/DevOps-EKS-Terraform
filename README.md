@@ -165,7 +165,7 @@ Once the DNS changes have propagated:
 
 ## 📊 Diagrams 
 ### AWS Architecture
-![AWS Architecture](https://ibb.co/VtVFBpq)
+![AWS Architecture](https://i.ibb.co/Y325jTL/moveo-assignment-drawio.png)
 
 ## 🔗 Access The Application
 Access the application via the domain:
