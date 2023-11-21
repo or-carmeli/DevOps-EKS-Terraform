@@ -4,15 +4,18 @@
 This project outlines the setup and deployment process for the DevOpsAssignment-Moveo project, including AWS infrastructure setup using Terraform, Docker containerization, Kubernetes deployment, and public access configuration.
 
 ## Table of Contents
+- [AWS Architecture](#AWS Architecture) 📊
 - [Repository Setup](#repository-setup) 📁
 - [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform) ⚙️
 - [Docker Containerization](#docker-containerization) 🐳
 - [Configuring the EC2 Instance](#configuring-the-ec2-instance) 💻
 - [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube) 🚢
 - [Public Access and DNS Configuration](#public-access-and-dns-configuration) 🌐
-- [Diagrams](#diagrams) 📊
 - [Access The Application](#access-the-application) 🔗
 - [Additional Notes And Considerations](#additional-notes-and-considerations) 📝
+
+### 📊 AWS Architecture
+![AWS Architecture](https://i.ibb.co/Y325jTL/moveo-assignment-drawio.png)
 
 ## 📁 Repository Setup
 Clone the repository to get started:
@@ -163,9 +166,6 @@ Once the DNS changes have propagated:
 1. *Open a Web Browser:* Navigate to the domain you configured.
 2. *Check for the NGINX Welcome Page or Your Application:* If you see the expected content ("yo this is nginx"), your setup is correct.
 
-## 📊 Diagrams 
-### AWS Architecture
-![AWS Architecture](https://i.ibb.co/Y325jTL/moveo-assignment-drawio.png)
 
 ## 🔗 Access The Application
 Access the application via the domain:
