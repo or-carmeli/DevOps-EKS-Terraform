@@ -2,10 +2,12 @@
 **/.terraform/*
 
 # .tfstate files
+# Ignore Terraform state files, which can contain sensitive information and are specific to your environment
 *.tfstate
 *.tfstate.*
 
 # Crash log files
+# Ignore any Terraform-generated crash logs, which you typically don't want in your repository.
 crash.log
 crash.*.log
 
@@ -18,6 +20,7 @@ crash.*.log
 
 # Ignore override files as they are usually used to override resources locally and so
 # are not checked in
+# Ignore any Terraform override files, which are typically used for local changes
 override.tf
 override.tf.json
 *_override.tf
@@ -30,5 +33,6 @@ override.tf.json
 # example: *tfplan*
 
 # Ignore CLI configuration files
+# Might contain sensitive information or user-specific settings
 .terraformrc
 terraform.rc

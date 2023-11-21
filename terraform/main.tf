@@ -20,13 +20,56 @@ resource "aws_vpc" "main_vpc" {
   }
 }
 
-resource "aws_subnet" "public_subnet" {
-  vpc_id     = aws_vpc.main_vpc.id
-  cidr_block = var.public_subnet_cidr
+resource "aws_internet_gateway" "main_igw" {
+  vpc_id = aws_vpc.main_vpc.id
+
+  tags = {
+    Name = "MainInternetGateway"
+  }
+}
+
+resource "aws_route_table" "public_route_table" {
+  vpc_id = aws_vpc.main_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    gateway_id = aws_internet_gateway.main_igw.id
+  }
+
+  tags = {
+    Name = "PublicRouteTable"
+  }
+}
+
+resource "aws_route_table_association" "public_subnet_1_association" {
+  subnet_id      = aws_subnet.public_subnet_1.id
+  route_table_id = aws_route_table.public_route_table.id
+}
+
+resource "aws_route_table_association" "public_subnet_2_association" {
+  subnet_id      = aws_subnet.public_subnet_2.id
+  route_table_id = aws_route_table.public_route_table.id
+}
+
+resource "aws_subnet" "public_subnet_1" {
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = "10.0.3.0/24"
+  availability_zone = "us-east-1a"  
   map_public_ip_on_launch = true
 
   tags = {
-    Name = "PublicSubnet"
+    Name = "PublicSubnet1"
+  }
+}
+
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id            = aws_vpc.main_vpc.id
+  cidr_block        = "10.0.4.0/24"
+  availability_zone = "us-east-1b"  
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "PublicSubnet2"
   }
 }
 
@@ -44,6 +87,7 @@ resource "aws_instance" "kubernetes_instance" {
   ami           = var.instance_ami
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private_subnet.id
+  key_name = var.key_name
 
   vpc_security_group_ids = [aws_security_group.private_sg.id]
 
@@ -55,8 +99,8 @@ resource "aws_instance" "kubernetes_instance" {
 resource "aws_instance" "bastion_host" {
   ami           = var.instance_ami
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.public_subnet.id
-  key_name      = "KeysForMachines"
+  subnet_id     = aws_subnet.public_subnet_1.id
+  key_name      = var.key_name
 
   vpc_security_group_ids = [aws_security_group.bastion_sg.id]
 
@@ -70,6 +114,14 @@ resource "aws_security_group" "private_sg" {
   description = "Security group for Private Instances"
   vpc_id      = aws_vpc.main_vpc.id
 
+  // Allow traffic on port 80 from the ALB's security group
+  ingress {
+    from_port   = 80
+    to_port     = 80
+    protocol    = "tcp"
+    security_groups = [aws_security_group.alb_sg.id] 
+  }
+  
   ingress {
     from_port   = 22
     to_port     = 22
@@ -94,7 +146,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]  # Replace with your IP address
+    cidr_blocks = ["0.0.0.0/0"] 
   }
 
   egress {
@@ -110,7 +162,7 @@ resource "aws_lb" "nginx_alb" {
   internal           = false
   load_balancer_type = "application"
   security_groups    = [aws_security_group.alb_sg.id]
-  subnets            = [aws_subnet.public_subnet.id]
+  subnets            = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
 
   enable_deletion_protection = false
 
@@ -124,13 +176,14 @@ resource "aws_security_group" "alb_sg" {
   description = "Security group for ALB"
   vpc_id      = aws_vpc.main_vpc.id
 
+// Allows HTTP traffic on port 80 from anywhere (0.0.0.0/0)
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-
+// Allows all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
@@ -146,14 +199,9 @@ resource "aws_lb_target_group" "nginx_target_group" {
   vpc_id   = aws_vpc.main_vpc.id
 
   health_check {
-    enabled             = true
-    path                = "/"
-    protocol            = "HTTP"
-    matcher             = "200-299"
-    interval            = 30
-    timeout             = 5
-    healthy_threshold   = 2
-    unhealthy_threshold = 2
+    protocol = "HTTP"
+    path     = "/"
+    port     = "80"
   }
 
   tags = {
@@ -170,10 +218,4 @@ resource "aws_lb_listener" "nginx_listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.nginx_target_group.arn
   }
-}
-
-resource "aws_lb_target_group_attachment" "nginx_attachment" {
-  target_group_arn = aws_lb_target_group.nginx_target_group.arn
-  target_id        = aws_instance.kubernetes_instance.id 
-  port             = 80
 }
