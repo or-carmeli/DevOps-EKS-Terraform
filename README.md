@@ -19,15 +19,19 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 Clone the repository to get started:
 ```bash
 git clone https://github.com/or-carmeli/DevOpsAssignment-Moveo.git
+cd DevOpsAssignment-Moveo
 ```
 
 ## AWS Infrastructure Setup using Terraform
 ### Prerequisites
-- Install Terraform and configure AWS with IAM user 'or2'.
-- Terraform version: v1.6.4
+- Install Terraform version v1.6.4 
+- Configure AWS with IAM user with the appropriate permissions.
+- Install Docker.
+- AWS CLI.
 
 ### Terraform Resources Created
 The `main.tf` file defines the following AWS resources:
+
 - Virtual Private Cloud (VPC) with DNS hostnames enabled.
 - Internet Gateway for the VPC.
 - Public Route Table with routes for external internet access.
@@ -36,6 +40,9 @@ The `main.tf` file defines the following AWS resources:
 - EC2 instances for Kubernetes deployment and Bastion Host.
 - Security Groups for Kubernetes nodes, Bastion Host, and Application Load Balancer (ALB).
 - Application Load Balancer, Target Group, and Listener for routing external traffic.
+
+The variables.tf file ....
+The output.tf file ....
 
 ### Execution
 Run Terraform commands:
@@ -56,18 +63,33 @@ docker run -d -p 80:80 my-nginx
 ```
 
 ## Kubernetes Deployment using Minikube
+Established a Kubernetes cluster using Minikube and deployed a Dockerized NGINX application. Configured the NGINX to be assigned to port 80 on the instance using Kubernetes resources.
+
 ### Setup
 Install and start Minikube.
 
-### Deployment
-Deploy the Dockerized NGINX application and configure Kubernetes resources.
+### Kubernetes Configuration Files
+Created the following Kubernetes resource files:
+- `deployment.yaml`: For deploying NGINX to Kubernetes.
+- `nginx-service.yaml`: To define the NGINX service.
+- `nginx-ingress.yaml`: For setting up Ingress to manage external access to the services in the cluster.
+- `alb-ingress-controller.yaml`: To control the AWS Application Load Balancer behavior.
+
+## Executing the Deployment
+### Committing the Configuration to Git
+After creating the configuration files, add them to the Git repository and push the changes:
+```bash
+git add .
+git commit -m "Added terraform and kubernetes configuration files"
+git push
+```
 
 ## Public Access and DNS Configuration
 ### Domain
-Acquire the domain `http://www.devopsmoveoassignment.space/`.
+Acquire domain of your choice.
 
 ### DNS and Route 53
-Setup DNS records on Domain.com and AWS Route 53.
+Setup DNS records and Namespaces on Domain.com and AWS Route 53.
 
 ### Verification
 Accessing the domain should display "yo this is nginx."
@@ -130,14 +152,21 @@ terraform apply
 ## Launching the Application
 Ensure Minikube is running:
 ```bash
-kubectl apply -f <filename>
+minikube status
 ```
 Access the application via the domain.
 
 ## Additional Notes
-- Update and review Terraform state regularly.
-- Monitor Kubernetes resources.
+- Update and review Terraform state regularly (manually/CronJob)
+- Monitor Kubernetes resources (daemonSets etc Promethus and Grafana)
 - Check security group rules and VPC settings.
+
+## Contact
+
+Example:
+```
+For any inquiries, please reach out to ocarmeli7@gmail.com.
+```
 
 ---
 
