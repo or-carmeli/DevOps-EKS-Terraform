@@ -85,49 +85,22 @@ sudo systemctl start docker
 
 ### 3. Install Kubernetes Components
 #### Add Kubernetes Repository
-For Ubuntu/Debian:
 ```bash
 sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 ```
 
 #### Install Kubernetes Components
-For Ubuntu/Debian:
 ```bash
 sudo apt-get update
 sudo apt-get install -y kubelet kubectl
-```
 sudo mkdir -m 755 /etc/apt/keyrings
+```
 
 Enable and start kubelet:
 ```bash
 sudo systemctl enable kubelet && sudo systemctl start kubelet
 kubectl version --client
-```
-
-### Install curl and Minikube
-```bash
-sudo apt update
-sudo apt install curl
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-```
-
-### Start Minikube and verify Installation
-```bash
-start minikube
-kubectl get nodes
-```
-
-### Deploying to Kubernetes
-Apply the Kubernetes configuration files using `kubectl`:
-
-```bash
-cd kubernetes
-kubectl apply -f deployment.yaml
-kubectl apply -f nginx-service.yaml
-kubectl apply -f nginx-ingress.yaml
-kubectl apply -f alb-ingress-controller.yaml
 ```
 
 ## Kubernetes Deployment using Minikube
