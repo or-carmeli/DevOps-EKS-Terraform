@@ -1,6 +1,3 @@
-Understood. In that case, you can succinctly summarize the resources created by the `main.tf` Terraform file in your README. Here's how to present it in a clear and concise way:
-
-```markdown
 # DevOpsAssignment-Moveo Project
 
 ## Overview
