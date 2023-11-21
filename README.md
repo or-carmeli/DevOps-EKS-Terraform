@@ -10,7 +10,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 - [Configuring the EC2 Instance](#configuring-the-ec2-instance) 💻
 - [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube) 🚢
 - [Public Access and DNS Configuration](#public-access-and-dns-configuration) 🌐
-- [Deployment Diagrams](#deployment-diagrams) 📊
+- [Diagrams](#diagrams) 📊
 - [Access The Application](#access-the-application) 🔗
 - [Additional Notes And Considerations](#additional-notes-and-considerations) 📝
 
@@ -162,6 +162,10 @@ Set Up Route 53: Use Amazon Route 53 (or another DNS service) to create a DNS re
 Once the DNS changes have propagated:
 1. *Open a Web Browser:* Navigate to the domain you configured.
 2. *Check for the NGINX Welcome Page or Your Application:* If you see the expected content ("yo this is nginx"), your setup is correct.
+
+## 📊 Diagrams 
+### AWS Architecture
+![AWS Architecture](https://ibb.co/VtVFBpq)
 
 ## 🔗 Access The Application
 Access the application via the domain:
