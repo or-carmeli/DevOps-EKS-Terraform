@@ -15,7 +15,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 - [Additional Notes And Considerations](#additional-notes-and-considerations) 📝
 
 ### 📊 AWS Architecture
-![AWS Architecture](https://i.ibb.co/w0ZHfhL/devops-assignment-drawio.png)
+![AWS Architecture](https://i.ibb.co/7rkghKp/moveo-assignment-drawio-3.png)
 
 ## 📁 Repository Setup
 Clone the repository to get started:
