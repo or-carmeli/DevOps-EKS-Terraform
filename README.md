@@ -169,7 +169,7 @@ Once the DNS changes have propagated:
 
 ## 🔗 Access The Application
 Access the application via the domain:
-http://www.example.com
+http://www.devopsmoveoassignment.space/
 
 Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
 
