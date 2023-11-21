@@ -184,6 +184,7 @@ Following these steps should enable you to set up public access to your NGINX ap
 ## 📬 Contact
 ```
 For any inquiries, please reach out to ocarmeli7@gmail.com.
+```
 
 ---
 
