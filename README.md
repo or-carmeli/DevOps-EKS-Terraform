@@ -11,7 +11,6 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 - [Public Access and DNS Configuration](#public-access-and-dns-configuration)
 - [Configuring the EC2 Instance](#configuring-the-ec2-instance)
 - [Deployment Diagrams](#deployment-diagrams)
-- [Executing Terraform Code](#executing-terraform-code)
 - [Launching the Application](#launching-the-application)
 - [Additional Notes](#additional-notes)
 
@@ -24,8 +23,8 @@ cd DevOpsAssignment-Moveo
 
 ## AWS Infrastructure Setup using Terraform
 ### Prerequisites
-- Install Terraform version v1.6.4 
-- Configure AWS with IAM user with the appropriate permissions.
+- Install Terraform version v1.6.4.
+- Configure AWS with IAM user with the appropriate permissions (aws configure).
 - Install Docker.
 - AWS CLI.
 
@@ -41,25 +40,31 @@ The `main.tf` file defines the following AWS resources:
 - Security Groups for Kubernetes nodes, Bastion Host, and Application Load Balancer (ALB).
 - Application Load Balancer, Target Group, and Listener for routing external traffic.
 
-The variables.tf file ....
-The output.tf file ....
+The variables.tf file declares and sets default values for variables used in The Terraform configuration.
+The output.tf defines the output variables that Terraform will display at the end of the apply phase.
 
 ### Execution
-Run Terraform commands:
+Navigate to the Terraform directory and execute:
 ```bash
-terraform init
-terraform plan
-terraform apply
+cd terraform
+terraform init # If you haven't initialized your Terraform working directory
+terraform plan # To review the proposed changes
+terraform apply # To apply the changes
 ```
-
 ## Docker Containerization
 ### Dockerfile
-Create a Dockerfile for NGINX with a custom message.
+Create a Dockerfile for NGINX with a custom message - "yo this is nginx".
 
 ### Build and Run
 ```bash
-docker build -t my-nginx .
-docker run -d -p 80:80 my-nginx
+cd Docker
+docker build -t devops-assignment:1.0.0 .
+docker run -d -p 80:80 devops-assignment:1.0.0
+```
+### Push to Docker Hub
+After creating repository in Docker Hub execute:
+```bash
+docker push orcarmeli/devops-assignment:1.0.0
 ```
 
 ## Kubernetes Deployment using Minikube
@@ -86,13 +91,27 @@ git push
 
 ## Public Access and DNS Configuration
 ### Domain
-Acquire domain of your choice.
+If you don't already have a domain name, you'll need to register one with a domain registrar (e.g., GoDaddy, Namecheap, Google Domains).
 
-### DNS and Route 53
-Setup DNS records and Namespaces on Domain.com and AWS Route 53.
+### Configure DNS Records
+Once you have your domain and the public IP address of your application, you need to configure DNS records:
+1. *Go to Your Domain Registrar's Management Console:* Log in to the website where you registered your domain name.
+2. *Navigate to the DNS Management Section:* Look for a section where you can manage DNS settings.
+3. *Create a DNS Record:*
+- Choose "CNAME Record".
+- Set the Host or Name field to your desired subdomain (like www) or @ for the root domain.
+- Set the Value or Points to field to the public IP address or DNS name of your load balancer/EC2 instance.
 
-### Verification
-Accessing the domain should display "yo this is nginx."
+### Wait for DNS Propagation
+After setting up the DNS record, it can take anywhere from a few minutes to 48 hours for the changes to propagate throughout the internet.
+
+### Route53 for DNS
+Set Up Route 53: Use Amazon Route 53 (or another DNS service) to create a DNS record that points to your load balancer. This is how users will access your application via a domain name.
+
+### Verify Access
+Once the DNS changes have propagated:
+1. *Open a Web Browser:* Navigate to the domain you configured.
+2. *Check for the NGINX Welcome Page or Your Application:* If you see the expected content ("yo this is nginx"), your setup is correct.
 
 ## Configuring the EC2 Instance
 Configuration steps executed through SSH from the Bastion Host:
@@ -118,36 +137,48 @@ For Ubuntu/Debian:
 sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
 ```
-For RHEL/CentOS:
-```bash
-sudo yum install -y epel-release
-```
 
 #### Install Kubernetes Components
 For Ubuntu/Debian:
 ```bash
 sudo apt-get update
-sudo apt-get install -y kubelet kubeadm kubectl
+sudo apt-get install -y kubelet kubectl
 ```
-For RHEL/CentOS:
-```bash
-sudo yum install -y kubelet kubeadm kubectl
-```
+sudo mkdir -m 755 /etc/apt/keyrings
+
 Enable and start kubelet:
 ```bash
 sudo systemctl enable kubelet && sudo systemctl start kubelet
+kubectl version --client
+```
+
+### Install curl and Minikube
+```bash
+sudo apt update
+sudo apt install curl
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+
+### Start Minikube and verify Installation
+```bash
+start minikube
+kubectl get nodes
+```
+
+### Deploying to Kubernetes
+Apply the Kubernetes configuration files using `kubectl`:
+
+```bash
+cd kubernetes
+kubectl apply -f deployment.yaml
+kubectl apply -f nginx-service.yaml
+kubectl apply -f nginx-ingress.yaml
+kubectl apply -f alb-ingress-controller.yaml
 ```
 
 ## Deployment Diagrams
 Include diagrams here.
-
-## Executing Terraform Code
-Navigate to the Terraform directory and execute:
-```bash
-terraform init
-terraform plan
-terraform apply
-```
 
 ## Launching the Application
 Ensure Minikube is running:

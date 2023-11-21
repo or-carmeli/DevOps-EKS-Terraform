@@ -30,7 +30,7 @@ variable "instance_ami" {
 
 variable "instance_type" {
   description = "EC2 instance type"
-  default     = "t2.micro"
+  default     = "t2.medium"
 }
 
 variable "key_name" {
