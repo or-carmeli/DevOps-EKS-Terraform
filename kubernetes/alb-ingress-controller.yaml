@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app.kubernetes.io/name: alb-ingress-controller
+  name: alb-ingress-controller
+  namespace: kube-system
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: alb-ingress-controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: alb-ingress-controller
+    spec:
+      containers:
+        - name: alb-ingress-controller
+          args:
+            - --ingress-class=alb
+            - --cluster-name=devCluster
+            - --aws-vpc-id=vpc-045afb95068a8a3d4
+            - --aws-region=us-east-1
+
+            # Uncomment and set these if you need specific AWS API debug logs or retry behavior
+            # - --aws-api-debug
+            # - --aws-max-retries=10
+
+          # Use IAM roles for service accounts (IRSA) or EC2 instance roles instead of hardcoding credentials
+          # env:
+          #   - name: AWS_ACCESS_KEY_ID
+          #     value: KEYVALUE
+          #   - name: AWS_SECRET_ACCESS_KEY
+          #     value: SECRETVALUE
+
+          image: docker.io/amazon/aws-alb-ingress-controller:v1.1.9  # Consider using AWS Load Balancer Controller
+
+      serviceAccountName: alb-ingress-controller
