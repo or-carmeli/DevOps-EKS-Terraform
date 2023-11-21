@@ -40,8 +40,8 @@ The `main.tf` file defines the following AWS resources:
 - Security Groups for Kubernetes nodes, Bastion Host, and Application Load Balancer (ALB).
 - Application Load Balancer, Target Group, and Listener for routing external traffic.
 
-The variables.tf file declares and sets default values for variables used in The Terraform configuration.
-The output.tf defines the output variables that Terraform will display at the end of the apply phase.
+The 'variables.tf' file declares and sets default values for variables used in The Terraform configuration.
+The 'outputs.tf' defines the output variables that Terraform will display at the end of the apply phase.
 
 ### Execution
 Navigate to the Terraform directory and execute:
@@ -68,10 +68,25 @@ docker push orcarmeli/devops-assignment:1.0.0
 ```
 
 ## Kubernetes Deployment using Minikube
-Established a Kubernetes cluster using Minikube and deployed a Dockerized NGINX application. Configured the NGINX to be assigned to port 80 on the instance using Kubernetes resources.
+Established a Kubernetes cluster using Minikube and deployed a Dockerized NGINX application. 
+Configured the NGINX to be assigned to port 80 on the instance using Kubernetes resources.
 
 ### Setup
 Install and start Minikube.
+
+### Install curl and Minikube
+```bash
+sudo apt update
+sudo apt install curl
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+
+### Start Minikube and verify Installation
+```bash
+start minikube
+kubectl get nodes
+```
 
 ### Kubernetes Configuration Files
 Created the following Kubernetes resource files:
@@ -79,6 +94,17 @@ Created the following Kubernetes resource files:
 - `nginx-service.yaml`: To define the NGINX service.
 - `nginx-ingress.yaml`: For setting up Ingress to manage external access to the services in the cluster.
 - `alb-ingress-controller.yaml`: To control the AWS Application Load Balancer behavior.
+
+### Deploying to Kubernetes
+Apply the Kubernetes configuration files using `kubectl`:
+
+```bash
+cd kubernetes
+kubectl apply -f deployment.yaml
+kubectl apply -f nginx-service.yaml
+kubectl apply -f nginx-ingress.yaml
+kubectl apply -f alb-ingress-controller.yaml
+```
 
 ## Executing the Deployment
 ### Committing the Configuration to Git
