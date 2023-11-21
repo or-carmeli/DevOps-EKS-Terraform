@@ -181,16 +181,20 @@ Ensure Minikube is running:
 ```bash
 minikube status
 ```
-Access the application via the domain.
+Access the application via the domain:
+http://www.example.com
+
+Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
 
 ## Additional Notes
-- Update and review Terraform state regularly (manually/CronJob)
-- Monitor Kubernetes resources (daemonSets etc Promethus and Grafana)
-- Check security group rules and VPC settings.
+- Update and review Terraform state regularly (manually/CronJob).
+- Security: Make sure your security groups and firewall rules allow traffic on port 80 to your Kubernetes cluster.
+- DNS Propagation: Sometimes DNS changes can take a while to propagate; you can check the status using various online DNS lookup tools.
+- SSL/TLS Certificate: For a production application, it's important to secure your domain with an SSL/TLS certificate. Services like AWS Certificate Manager or Let’s Encrypt can be used to obtain a certificate.
+- Redundancy: For high availability, consider using multiple instances of your application and LoadBalancer settings that support failover and redundancy.
+- Monitoring and Logging: Implement monitoring and logging solutions to keep track of your application's health and performance.
 
 ## Contact
-
-Example:
 ```
 For any inquiries, please reach out to ocarmeli7@gmail.com.
 ```
