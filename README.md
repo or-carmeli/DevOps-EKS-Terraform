@@ -11,7 +11,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 - [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube) 🚢
 - [Public Access and DNS Configuration](#public-access-and-dns-configuration) 🌐
 - [Deployment Diagrams](#deployment-diagrams) 📊
-- [Access The Application](#access-the-application) 🚀
+- [Access The Application](#access-the-application) 🔗
 - [Additional Notes And Considerations](#additional-notes-and-considerations) 📝
 
 ## 📁 Repository Setup
@@ -163,7 +163,7 @@ Once the DNS changes have propagated:
 1. *Open a Web Browser:* Navigate to the domain you configured.
 2. *Check for the NGINX Welcome Page or Your Application:* If you see the expected content ("yo this is nginx"), your setup is correct.
 
-## 🚀 Access The Application
+## 🔗 Access The Application
 Access the application via the domain:
 http://www.example.com
 
