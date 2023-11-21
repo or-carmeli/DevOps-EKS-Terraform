@@ -66,13 +66,73 @@ After creating repository in Docker Hub execute:
 ```bash
 docker push orcarmeli/devops-assignment:1.0.0
 ```
+## Configuring the EC2 Instance
+Configuration steps executed through SSH from the Bastion Host:
+
+### 1. Update and Install Dependencies
+Update the package list and upgrade the packages:
+```bash
+sudo apt-get update && sudo apt-get upgrade
+```
+
+### 2. Install Docker (Container Runtime)
+Install and start Docker:
+```bash
+sudo apt-get install docker.io
+sudo systemctl enable docker
+sudo systemctl start docker
+```
+
+### 3. Install Kubernetes Components
+#### Add Kubernetes Repository
+For Ubuntu/Debian:
+```bash
+sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
+curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
+```
+
+#### Install Kubernetes Components
+For Ubuntu/Debian:
+```bash
+sudo apt-get update
+sudo apt-get install -y kubelet kubectl
+```
+sudo mkdir -m 755 /etc/apt/keyrings
+
+Enable and start kubelet:
+```bash
+sudo systemctl enable kubelet && sudo systemctl start kubelet
+kubectl version --client
+```
+
+### Install curl and Minikube
+```bash
+sudo apt update
+sudo apt install curl
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+
+### Start Minikube and verify Installation
+```bash
+start minikube
+kubectl get nodes
+```
+
+### Deploying to Kubernetes
+Apply the Kubernetes configuration files using `kubectl`:
+
+```bash
+cd kubernetes
+kubectl apply -f deployment.yaml
+kubectl apply -f nginx-service.yaml
+kubectl apply -f nginx-ingress.yaml
+kubectl apply -f alb-ingress-controller.yaml
+```
 
 ## Kubernetes Deployment using Minikube
 Established a Kubernetes cluster using Minikube and deployed a Dockerized NGINX application. 
 Configured the NGINX to be assigned to port 80 on the instance using Kubernetes resources.
-
-### Setup
-Install and start Minikube.
 
 ### Install curl and Minikube
 ```bash
@@ -139,69 +199,6 @@ Once the DNS changes have propagated:
 1. *Open a Web Browser:* Navigate to the domain you configured.
 2. *Check for the NGINX Welcome Page or Your Application:* If you see the expected content ("yo this is nginx"), your setup is correct.
 
-## Configuring the EC2 Instance
-Configuration steps executed through SSH from the Bastion Host:
-
-### 1. Update and Install Dependencies
-Update the package list and upgrade the packages:
-```bash
-sudo apt-get update && sudo apt-get upgrade
-```
-
-### 2. Install Docker (Container Runtime)
-Install and start Docker:
-```bash
-sudo apt-get install docker.io
-sudo systemctl enable docker
-sudo systemctl start docker
-```
-
-### 3. Install Kubernetes Components
-#### Add Kubernetes Repository
-For Ubuntu/Debian:
-```bash
-sudo apt-get update && sudo apt-get install -y apt-transport-https gnupg2 curl
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add -
-```
-
-#### Install Kubernetes Components
-For Ubuntu/Debian:
-```bash
-sudo apt-get update
-sudo apt-get install -y kubelet kubectl
-```
-sudo mkdir -m 755 /etc/apt/keyrings
-
-Enable and start kubelet:
-```bash
-sudo systemctl enable kubelet && sudo systemctl start kubelet
-kubectl version --client
-```
-
-### Install curl and Minikube
-```bash
-sudo apt update
-sudo apt install curl
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-```
-
-### Start Minikube and verify Installation
-```bash
-start minikube
-kubectl get nodes
-```
-
-### Deploying to Kubernetes
-Apply the Kubernetes configuration files using `kubectl`:
-
-```bash
-cd kubernetes
-kubectl apply -f deployment.yaml
-kubectl apply -f nginx-service.yaml
-kubectl apply -f nginx-ingress.yaml
-kubectl apply -f alb-ingress-controller.yaml
-```
 
 ## Deployment Diagrams
 Include diagrams here.
