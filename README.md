@@ -187,6 +187,7 @@ For any inquiries, please reach out to ocarmeli7@gmail.com.
 
 ---
 
-© 2023 [Or Carmeli](https://github.com/or-carmeli). All Rights Reserved.📜
-```
+© 2023 [Or Carmeli](https://github.com/or-carmeli). All Rights Reserved. 📜
+
+---
 
