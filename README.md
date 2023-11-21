@@ -139,15 +139,6 @@ kubectl apply -f nginx-ingress.yaml
 kubectl apply -f alb-ingress-controller.yaml
 ```
 
-## Executing the Deployment
-### Committing the Configuration to Git
-After creating the configuration files, add them to the Git repository and push the changes:
-```bash
-git add .
-git commit -m "Added terraform and kubernetes configuration files"
-git push
-```
-
 ## Public Access and DNS Configuration
 ### Domain
 If you don't already have a domain name, you'll need to register one with a domain registrar (e.g., GoDaddy, Namecheap, Google Domains).
@@ -176,15 +167,11 @@ Once the DNS changes have propagated:
 ## Deployment Diagrams
 Include diagrams here.
 
-## Launching the Application
-Ensure Minikube is running:
-```bash
-minikube status
-```
+## Access the application
 Access the application via the domain:
 http://www.example.com
 
-Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
+* Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
 
 ## Additional Notes
 - Update and review Terraform state regularly (manually/CronJob).
