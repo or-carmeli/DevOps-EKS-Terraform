@@ -171,9 +171,9 @@ Include diagrams here.
 Access the application via the domain:
 http://www.example.com
 
-* Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
+Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
 
-## Additional Notes
+## Additional Notes & Considerations
 - Update and review Terraform state regularly (manually/CronJob).
 - Security: Make sure your security groups and firewall rules allow traffic on port 80 to your Kubernetes cluster.
 - DNS Propagation: Sometimes DNS changes can take a while to propagate; you can check the status using various online DNS lookup tools.
