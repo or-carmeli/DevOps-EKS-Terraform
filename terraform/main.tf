@@ -157,6 +157,7 @@ resource "aws_security_group" "bastion_sg" {
   }
 }
 
+// Creates an Application Load Balancer named "nginx-alb"
 resource "aws_lb" "nginx_alb" {
   name               = "nginx-alb"
   internal           = false
@@ -164,13 +165,14 @@ resource "aws_lb" "nginx_alb" {
   security_groups    = [aws_security_group.alb_sg.id]
   subnets            = [aws_subnet.public_subnet_1.id, aws_subnet.public_subnet_2.id]
 
-  enable_deletion_protection = false
+  enable_deletion_protection = true
 
   tags = {
     Name = "nginx-alb"
   }
 }
 
+// Defines a security group "alb-sg" for the ALB
 resource "aws_security_group" "alb_sg" {
   name        = "alb-sg"
   description = "Security group for ALB"
@@ -192,6 +194,7 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
+// Creates a target group "nginx-target-group" for the ALB.
 resource "aws_lb_target_group" "nginx_target_group" {
   name     = "nginx-target-group"
   port     = 80
@@ -218,4 +221,10 @@ resource "aws_lb_listener" "nginx_listener" {
     type             = "forward"
     target_group_arn = aws_lb_target_group.nginx_target_group.arn
   }
+}
+
+resource "aws_lb_target_group_attachment" "nginx_tg_attachment" {
+  target_group_arn = aws_lb_target_group.nginx_target_group.arn
+  target_id        = aws_instance.nginx_instance.id
+  port             = 80
 }

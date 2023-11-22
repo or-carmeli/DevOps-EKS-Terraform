@@ -7,7 +7,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 ## Table of Contents
 - [Overview](#overview-)
 - [AWS Architecture](#aws-architecture-)
-- [Repository Setup](#repository-setup-)
+- [Prerequisites](#prerequisites-)
 - [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform-)
 - [Docker Containerization](#docker-containerization-)
 - [Configuring the EC2 Instance](#configuring-the-ec2-instance-)
@@ -21,22 +21,26 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 ## AWS Architecture 📊
 ![AWS Architecture](https://i.ibb.co/7rkghKp/moveo-assignment-drawio-3.png)
 
-## Repository Setup 📁
+## Prerequisites 📁
+- Install Terraform version v1.6.4.
+- Configure AWS with an IAM user with the appropriate permissions (aws configure).
+- Install Docker in your local machine.
+- Install AWS CLI in your local machine. 
+
+### Repository Setup 📁
 Clone the repository to get started:
 ```bash
 git clone https://github.com/or-carmeli/DevOpsAssignment-Moveo.git
 cd DevOpsAssignment-Moveo
 ```
+## AWS Infrastructure Setup using Terraform ⚙️
 
-## ⚙️ AWS Infrastructure Setup using Terraform
-### Prerequisites
-- Install Terraform version v1.6.4.
-- Configure AWS with an IAM user with the appropriate permissions (aws configure).
-- Install Docker.
-- AWS CLI.
+### Terraform Setup
+- Install Terraform and configure it to work with AWS.
+- Define your AWS provider and authentication details in Terraform.
 
 ### Terraform Resources Created
-The `main.tf` file defines the following AWS resources:
+Define a Terraform script (`main.tf`) to create the following resources:
 - Virtual Private Cloud (VPC) with DNS hostnames enabled.
 - Internet Gateway for the VPC.
 - Public Route Table with routes for external internet access.
@@ -59,10 +63,12 @@ terraform apply # To apply the changes
 ```
 
 ## Docker Containerization 🐳
-### Dockerfile
-Create a Dockerfile for NGINX with a custom message - "yo this is nginx".
+### Create Dockerfile
+- Write a Dockerfile to build an NGINX image.
+- Modify the web content (index.html)  to display "yo this is nginx".
 
-### Build and Run
+### Build and Test Locally
+- Use `docker build` and `docker run` commands to build and test the NGINX container.
 ```bash
 cd Docker
 docker build -t devops-assignment:1.0.0 .
