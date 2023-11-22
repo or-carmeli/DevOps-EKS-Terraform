@@ -27,7 +27,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 - Install Docker in your local machine.
 - Install AWS CLI in your local machine. 
 
-### Repository Setup 📁
+### Repository Setup
 Clone the repository to get started:
 ```bash
 git clone https://github.com/or-carmeli/DevOpsAssignment-Moveo.git
