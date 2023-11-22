@@ -5,17 +5,17 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 
 
 ## Table of Contents
-- [Overview](#overview) 🔍
-- [AWS Architecture](#aws-architecture) 📊
-- [Repository Setup](#repository-setup) 📁
-- [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform) ⚙️
-- [Docker Containerization](#docker-containerization) 🐳
-- [Configuring the EC2 Instance](#configuring-the-ec2-instance) 💻
-- [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube) 🚢
-- [Public Access and DNS Configuration](#public-access-and-dns-configuration) 🌐
-- [Access The Application](#access-the-application) 🔗
-- [Additional Notes And Considerations](#additional-notes-and-considerations) 📝
-- [Contact](#contact) 📧
+- [Overview](#overview-)
+- [AWS Architecture](#aws-architecture)
+- [Repository Setup](#repository-setup)
+- [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform)
+- [Docker Containerization](#docker-containerization)
+- [Configuring the EC2 Instance](#configuring-the-ec2-instance)
+- [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube)
+- [Public Access and DNS Configuration](#public-access-and-dns-configuration)
+- [Access The Application](#access-the-application)
+- [Additional Notes And Considerations](#additional-notes-and-considerations)
+- [Contact](#contact)
 
 
 ## 📊 AWS Architecture
