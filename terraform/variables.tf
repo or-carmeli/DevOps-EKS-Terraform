@@ -25,7 +25,7 @@ variable "private_subnet_cidr" {
 
 variable "instance_ami" {
   description = "AMI ID for the EC2 instance"
-  default     = "ami-06aa3f7caf3a30282"  # Ubuntu 20.04 
+  default     = "ami-06aa3f7caf3a30282" # Ubuntu 20.04 
 }
 
 variable "instance_type" {

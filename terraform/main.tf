@@ -12,7 +12,7 @@ provider "aws" {
 }
 
 resource "aws_vpc" "main_vpc" {
-  cidr_block = var.vpc_cidr
+  cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
 
   tags = {
@@ -52,9 +52,9 @@ resource "aws_route_table_association" "public_subnet_2_association" {
 }
 
 resource "aws_subnet" "public_subnet_1" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = "10.0.3.0/24"
-  availability_zone = "us-east-1a"  
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = "10.0.3.0/24"
+  availability_zone       = "us-east-1a"
   map_public_ip_on_launch = true
 
   tags = {
@@ -63,9 +63,9 @@ resource "aws_subnet" "public_subnet_1" {
 }
 
 resource "aws_subnet" "public_subnet_2" {
-  vpc_id            = aws_vpc.main_vpc.id
-  cidr_block        = "10.0.4.0/24"
-  availability_zone = "us-east-1b"  
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = "10.0.4.0/24"
+  availability_zone       = "us-east-1b"
   map_public_ip_on_launch = true
 
   tags = {
@@ -74,8 +74,8 @@ resource "aws_subnet" "public_subnet_2" {
 }
 
 resource "aws_subnet" "private_subnet" {
-  vpc_id     = aws_vpc.main_vpc.id
-  cidr_block = var.private_subnet_cidr
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = var.private_subnet_cidr
   map_public_ip_on_launch = false
 
   tags = {
@@ -87,7 +87,7 @@ resource "aws_instance" "kubernetes_instance" {
   ami           = var.instance_ami
   instance_type = var.instance_type
   subnet_id     = aws_subnet.private_subnet.id
-  key_name = var.key_name
+  key_name      = var.key_name
 
   vpc_security_group_ids = [aws_security_group.private_sg.id]
 
@@ -116,16 +116,16 @@ resource "aws_security_group" "private_sg" {
 
   // Allow traffic on port 80 from the ALB's security group
   ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    security_groups = [aws_security_group.alb_sg.id] 
+    from_port       = 80
+    to_port         = 80
+    protocol        = "tcp"
+    security_groups = [aws_security_group.alb_sg.id]
   }
-  
+
   ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
+    from_port       = 22
+    to_port         = 22
+    protocol        = "tcp"
     security_groups = [aws_security_group.bastion_sg.id]
   }
 
@@ -146,7 +146,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"] 
+    cidr_blocks = ["0.0.0.0/0"]
   }
 
   egress {
@@ -178,14 +178,14 @@ resource "aws_security_group" "alb_sg" {
   description = "Security group for ALB"
   vpc_id      = aws_vpc.main_vpc.id
 
-// Allows HTTP traffic on port 80 from anywhere (0.0.0.0/0)
+  // Allows HTTP traffic on port 80 from anywhere (0.0.0.0/0)
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-// Allows all outbound traffic
+  // Allows all outbound traffic
   egress {
     from_port   = 0
     to_port     = 0
@@ -213,7 +213,7 @@ resource "aws_lb_target_group" "nginx_target_group" {
 }
 
 resource "aws_lb_listener" "nginx_listener" {
-  load_balancer_arn = aws_lb.nginx_alb.arn 
+  load_balancer_arn = aws_lb.nginx_alb.arn
   port              = 80
   protocol          = "HTTP"
 
@@ -225,6 +225,6 @@ resource "aws_lb_listener" "nginx_listener" {
 
 resource "aws_lb_target_group_attachment" "nginx_tg_attachment" {
   target_group_arn = aws_lb_target_group.nginx_target_group.arn
-  target_id        = aws_instance.nginx_instance.id
+  target_id        = aws_instance.kubernetes_instance.id
   port             = 80
 }

@@ -30,7 +30,7 @@ output "bastion_host_public_ip" {
 
 output "nginx_alb_arn" {
   description = "The ARN of the NGINX Application Load Balancer"
-  value       = aws_lb.nginx_alb.arn 
+  value       = aws_lb.nginx_alb.arn
 }
 
 output "nginx_target_group_arn" {
