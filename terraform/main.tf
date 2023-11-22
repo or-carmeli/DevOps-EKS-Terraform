@@ -73,7 +73,7 @@ resource "aws_subnet" "private_subnet_2" {
 }
 
 resource "aws_eip" "nat_eip" {
-  vpc = true
+  domain = "vpc"
 }
 
 resource "aws_nat_gateway" "nat_gw" {
