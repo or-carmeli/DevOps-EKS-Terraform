@@ -3,14 +3,24 @@ output "vpc_id" {
   value       = aws_vpc.main_vpc.id
 }
 
-output "public_subnet_id" {
-  description = "The ID of the public subnet"
+output "public_subnet_id_1" {
+  description = "The ID of the first public subnet"
   value       = aws_subnet.public_subnet_1.id
 }
 
-output "private_subnet_id" {
-  description = "The ID of the private subnet"
-  value       = aws_subnet.private_subnet.id
+output "public_subnet_id_2" {
+  description = "The ID of the second public subnet"
+  value       = aws_subnet.public_subnet_2.id
+}
+
+output "private_subnet_id_1" {
+  description = "The ID of the first private subnet"
+  value       = aws_subnet.private_subnet_1.id
+}
+
+output "private_subnet_id_2" {
+  description = "The ID of the second private subnet"
+  value       = aws_subnet.private_subnet_2.id
 }
 
 output "kubernetes_instance_id" {

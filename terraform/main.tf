@@ -28,6 +28,63 @@ resource "aws_internet_gateway" "main_igw" {
   }
 }
 
+resource "aws_subnet" "public_subnet_1" {
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = var.public_subnet_cidr_1
+  availability_zone       = "us-east-1a"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "PublicSubnet1"
+  }
+}
+
+resource "aws_subnet" "public_subnet_2" {
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = var.public_subnet_cidr_2
+  availability_zone       = "us-east-1b"
+  map_public_ip_on_launch = true
+
+  tags = {
+    Name = "PublicSubnet2"
+  }
+}
+
+resource "aws_subnet" "private_subnet_1" {
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = var.private_subnet_cidr_1
+  availability_zone       = "us-east-1a"
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = "PrivateSubnet1"
+  }
+}
+
+resource "aws_subnet" "private_subnet_2" {
+  vpc_id                  = aws_vpc.main_vpc.id
+  cidr_block              = var.private_subnet_cidr_2
+  availability_zone       = "us-east-1b"
+  map_public_ip_on_launch = false
+
+  tags = {
+    Name = "PrivateSubnet2"
+  }
+}
+
+resource "aws_eip" "nat_eip" {
+  vpc = true
+}
+
+resource "aws_nat_gateway" "nat_gw" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public_subnet_1.id
+
+  tags = {
+    Name = "MainNATGateway"
+  }
+}
+
 resource "aws_route_table" "public_route_table" {
   vpc_id = aws_vpc.main_vpc.id
 
@@ -51,43 +108,33 @@ resource "aws_route_table_association" "public_subnet_2_association" {
   route_table_id = aws_route_table.public_route_table.id
 }
 
-resource "aws_subnet" "public_subnet_1" {
-  vpc_id                  = aws_vpc.main_vpc.id
-  cidr_block              = "10.0.3.0/24"
-  availability_zone       = "us-east-1a"
-  map_public_ip_on_launch = true
+resource "aws_route_table" "private_route_table" {
+  vpc_id = aws_vpc.main_vpc.id
+
+  route {
+    cidr_block = "0.0.0.0/0"
+    nat_gateway_id = aws_nat_gateway.nat_gw.id
+  }
 
   tags = {
-    Name = "PublicSubnet1"
+    Name = "PrivateRouteTable"
   }
 }
 
-resource "aws_subnet" "public_subnet_2" {
-  vpc_id                  = aws_vpc.main_vpc.id
-  cidr_block              = "10.0.4.0/24"
-  availability_zone       = "us-east-1b"
-  map_public_ip_on_launch = true
-
-  tags = {
-    Name = "PublicSubnet2"
-  }
+resource "aws_route_table_association" "private_subnet_1_association" {
+  subnet_id      = aws_subnet.private_subnet_1.id
+  route_table_id = aws_route_table.private_route_table.id
 }
 
-resource "aws_subnet" "private_subnet" {
-  vpc_id                  = aws_vpc.main_vpc.id
-  cidr_block              = var.private_subnet_cidr
-  availability_zone       = "us-east-1b"
-  map_public_ip_on_launch = false
-
-  tags = {
-    Name = "PrivateSubnet"
-  }
+resource "aws_route_table_association" "private_subnet_2_association" {
+  subnet_id      = aws_subnet.private_subnet_2.id
+  route_table_id = aws_route_table.private_route_table.id
 }
 
 resource "aws_instance" "kubernetes_instance" {
   ami           = var.instance_ami
   instance_type = var.instance_type
-  subnet_id     = aws_subnet.private_subnet.id
+  subnet_id     = aws_subnet.private_subnet_1.id
   key_name      = var.key_name
 
   vpc_security_group_ids = [aws_security_group.private_sg.id]
@@ -97,25 +144,11 @@ resource "aws_instance" "kubernetes_instance" {
   }
 }
 
-resource "aws_instance" "bastion_host" {
-  ami           = var.instance_ami
-  instance_type = var.instance_type
-  subnet_id     = aws_subnet.public_subnet_1.id
-  key_name      = var.key_name
-
-  vpc_security_group_ids = [aws_security_group.bastion_sg.id]
-
-  tags = {
-    Name = "BastionHost"
-  }
-}
-
 resource "aws_security_group" "private_sg" {
   name        = "private-sg"
   description = "Security group for Private Instances"
   vpc_id      = aws_vpc.main_vpc.id
 
-  // Allow traffic on port 80 from the ALB's security group
   ingress {
     from_port       = 80
     to_port         = 80
@@ -138,6 +171,19 @@ resource "aws_security_group" "private_sg" {
   }
 }
 
+resource "aws_instance" "bastion_host" {
+  ami           = var.instance_ami
+  instance_type = var.instance_type
+  subnet_id     = aws_subnet.public_subnet_1.id
+  key_name      = var.key_name
+
+  vpc_security_group_ids = [aws_security_group.bastion_sg.id]
+
+  tags = {
+    Name = "BastionHost"
+  }
+}
+
 resource "aws_security_group" "bastion_sg" {
   name        = "bastion-sg"
   description = "Security group for Bastion Host"
@@ -147,7 +193,7 @@ resource "aws_security_group" "bastion_sg" {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
-    cidr_blocks = ["0.0.0.0/0"]
+    cidr_blocks = ["0.0.0.0/32"]
   }
 
   egress {
@@ -158,7 +204,6 @@ resource "aws_security_group" "bastion_sg" {
   }
 }
 
-// Creates an Application Load Balancer named "nginx-alb"
 resource "aws_lb" "nginx_alb" {
   name               = "nginx-alb"
   internal           = false
@@ -173,20 +218,18 @@ resource "aws_lb" "nginx_alb" {
   }
 }
 
-// Defines a security group "alb-sg" for the ALB
 resource "aws_security_group" "alb_sg" {
   name        = "alb-sg"
   description = "Security group for ALB"
   vpc_id      = aws_vpc.main_vpc.id
 
-  // Allows HTTP traffic on port 80 from anywhere (0.0.0.0/0)
   ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = ["0.0.0.0/0"]
   }
-  // Allows all outbound traffic
+
   egress {
     from_port   = 0
     to_port     = 0
@@ -195,7 +238,6 @@ resource "aws_security_group" "alb_sg" {
   }
 }
 
-// Creates a target group "nginx-target-group" for the ALB.
 resource "aws_lb_target_group" "nginx_target_group" {
   name     = "nginx-target-group"
   port     = 80
@@ -228,4 +270,20 @@ resource "aws_lb_target_group_attachment" "nginx_tg_attachment" {
   target_group_arn = aws_lb_target_group.nginx_target_group.arn
   target_id        = aws_instance.kubernetes_instance.id
   port             = 80
+}
+
+resource "aws_route53_zone" "main" {
+  name = "devopsmoveoassignment.space"
+}
+
+resource "aws_route53_record" "www" {
+  zone_id = aws_route53_zone.main.zone_id
+  name    = "www.devopsmoveoassignment.space"
+  type    = "A"
+
+  alias {
+    name                   = aws_lb.nginx_alb.dns_name
+    zone_id                = aws_lb.nginx_alb.zone_id
+    evaluate_target_health = true
+  }
 }
