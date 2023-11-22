@@ -191,7 +191,7 @@ For any inquiries, please reach out to ocarmeli7@gmail.com.
 
 ---
 
-© 2023 [Or Carmeli](https://github.com/or-carmeli) and Moveo Company All Rights Reserved. 📜
+© 2023 [Or Carmeli](https://github.com/or-carmeli) and Moveo Group. All Rights Reserved. 📜
 
 ---
 
