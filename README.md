@@ -7,7 +7,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 ## Table of Contents
 - [Overview](#overview-)
 - [AWS Architecture](#aws-architecture-)
-- [Repository Setup](#--repository-setup)
+- [Repository Setup](#-repository-setup)
 - [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform)
 - [Docker Containerization](#docker-containerization)
 - [Configuring the EC2 Instance](#configuring-the-ec2-instance)
@@ -21,7 +21,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 ## AWS Architecture 📊
 ![AWS Architecture](https://i.ibb.co/7rkghKp/moveo-assignment-drawio-3.png)
 
-## 📁 Repository Setup
+## 📁Repository Setup
 Clone the repository to get started:
 ```bash
 git clone https://github.com/or-carmeli/DevOpsAssignment-Moveo.git
