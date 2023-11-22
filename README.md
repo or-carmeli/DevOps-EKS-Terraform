@@ -1,20 +1,22 @@
-# DevOpsAssignment-Moveo Project 🚀
+# DevOpsAssignment-Moveo Project 
 
 ## Overview
 This project outlines the setup and deployment process for the DevOpsAssignment-Moveo project. It includes detailed instructions for AWS infrastructure setup using Terraform, Docker containerization, Kubernetes deployment, and configuration for public access.
 
+
 ## Table of Contents
 - [Overview](#overview)
-- [AWS Architecture](#aws-architecture-)
-- [Repository Setup](#repository-setup-)
-- [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform-)
-- [Docker Containerization](#docker-containerization-)
-- [Configuring the EC2 Instance](#configuring-the-ec2-instance-)
-- [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube-)
-- [Public Access and DNS Configuration](#public-access-and-dns-configuration-)
-- [Access The Application](#access-the-application-)
-- [Additional Notes And Considerations](#additional-notes-and-considerations-)
-- [Contact](#contact-)
+- [AWS Architecture](#aws-architecture) 📊
+- [Repository Setup](#repository-setup) 📁
+- [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform) ⚙️
+- [Docker Containerization](#docker-containerization) 🐳
+- [Configuring the EC2 Instance](#configuring-the-ec2-instance) 💻
+- [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube) 🚢
+- [Public Access and DNS Configuration](#public-access-and-dns-configuration) 🌐
+- [Access The Application](#access-the-application) 🔗
+- [Additional Notes And Considerations](#additional-notes-and-considerations) 📝
+- [Contact](#contact)
+
 
 ## 📊 AWS Architecture
 ![AWS Architecture](https://i.ibb.co/7rkghKp/moveo-assignment-drawio-3.png)
