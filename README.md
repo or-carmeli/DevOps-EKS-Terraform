@@ -7,21 +7,21 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 ## Table of Contents
 - [Overview](#overview-)
 - [AWS Architecture](#aws-architecture-)
-- [Repository Setup](#-repository-setup)
-- [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform)
-- [Docker Containerization](#docker-containerization)
-- [Configuring the EC2 Instance](#configuring-the-ec2-instance)
-- [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube)
-- [Public Access and DNS Configuration](#public-access-and-dns-configuration)
-- [Access The Application](#access-the-application)
-- [Additional Notes And Considerations](#additional-notes-and-considerations)
+- [Repository Setup](#repository-setup-)
+- [AWS Infrastructure Setup using Terraform](#aws-infrastructure-setup-using-terraform-)
+- [Docker Containerization](#docker-containerization-)
+- [Configuring the EC2 Instance](#configuring-the-ec2-instance-)
+- [Kubernetes Deployment using Minikube](#kubernetes-deployment-using-minikube-)
+- [Public Access and DNS Configuration](#public-access-and-dns-configuration-)
+- [Access The Application](#access-the-application-)
+- [Additional Notes And Considerations](#additional-notes-and-considerations-)
 - [Contact](#contact)
 
 
 ## AWS Architecture 📊
 ![AWS Architecture](https://i.ibb.co/7rkghKp/moveo-assignment-drawio-3.png)
 
-## 📁Repository Setup
+## Repository Setup 📁
 Clone the repository to get started:
 ```bash
 git clone https://github.com/or-carmeli/DevOpsAssignment-Moveo.git
@@ -58,7 +58,7 @@ terraform plan # To review the proposed changes
 terraform apply # To apply the changes
 ```
 
-## 🐳 Docker Containerization
+## Docker Containerization 🐳
 ### Dockerfile
 Create a Dockerfile for NGINX with a custom message - "yo this is nginx".
 
@@ -75,7 +75,7 @@ After creating a repository in Docker Hub execute:
 docker push orcarmeli/devops-assignment:1.0.0
 ```
 
-## 💻 Configuring the EC2 Instance
+## Configuring the EC2 Instance 💻
 Configuration steps executed through SSH from the Bastion Host:
 
 ### 1. Update and Install Dependencies
@@ -112,7 +112,7 @@ sudo systemctl enable kubelet && sudo systemctl start kubelet
 kubectl version --client
 ```
 
-## 🚢 Kubernetes Deployment using Minikube
+## Kubernetes Deployment using Minikube 🚢
 Establish a Kubernetes cluster using Minikube and deploy a Dockerized NGINX application. Configure the NGINX to be assigned to port 80 on the instance using Kubernetes resources.
 
 ### Install curl and Minikube
@@ -148,7 +148,7 @@ kubectl apply -f nginx-ingress.yaml
 kubectl apply -f alb-ingress-controller.yaml
 ```
 
-## 🌐 Public Access and DNS Configuration
+## Public Access and DNS Configuration 🌐
 ### Domain
 If you don't already have a domain name, you'll need to register one with a domain registrar (e.g., GoDaddy, Namecheap, Google Domains).
 
@@ -172,13 +172,13 @@ Once the DNS changes have propagated:
 1. Open a Web Browser: Navigate to the domain you configured.
 2. Check for the NGINX Welcome Page or Your Application: If you see the expected content ("yo this is nginx"), your setup is correct.
 
-## 🔗 Access The Application
+## Access The Application 🔗
 Access the application via the domain:
 http://www.devopsmoveoassignment.space/
 
 Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
 
-## 📝 Additional Notes And Considerations
+## Additional Notes And Considerations 📝
 - Update and review Terraform state regularly (manually/CronJob).
 - Security: Make sure your security groups and firewall rules allow traffic on port 80 to your Kubernetes cluster.
 - DNS Propagation: Sometimes DNS changes can take a while to propagate; you can check the status using various online DNS lookup tools.
@@ -186,12 +186,12 @@ Following these steps should enable you to set up public access to your NGINX ap
 - Redundancy: For high availability, consider using multiple instances of your application and LoadBalancer settings that support failover and redundancy.
 - Monitoring and Logging: Implement monitoring and logging solutions to keep track of your application's health and performance.
 
-## 📬 Contact
+## Contact 📬
 For any inquiries, please reach out to ocarmeli7@gmail.com.
 
 ---
 
-© 2023 [Or Carmeli](https://github.com/or-carmeli). All Rights Reserved. 📜
+© 2023 [Or Carmeli](https://github.com/or-carmeli) and Moveo Company All Rights Reserved. 📜
 
 ---
 
