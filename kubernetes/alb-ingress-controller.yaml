@@ -18,21 +18,10 @@ spec:
         - name: alb-ingress-controller
           args:
             - --ingress-class=alb
-            - --cluster-name=devCluster
-            - --aws-vpc-id=vpc-045afb95068a8a3d4
+            # - --cluster-name=devCluster
+            - --aws-vpc-id=vpc-0a4b83de3703f0ac6
             - --aws-region=us-east-1
 
-            # Uncomment and set these if you need specific AWS API debug logs or retry behavior
-            # - --aws-api-debug
-            # - --aws-max-retries=10
-
-          # Use IAM roles for service accounts (IRSA) or EC2 instance roles instead of hardcoding credentials
-          # env:
-          #   - name: AWS_ACCESS_KEY_ID
-          #     value: KEYVALUE
-          #   - name: AWS_SECRET_ACCESS_KEY
-          #     value: SECRETVALUE
-
-          image: docker.io/amazon/aws-alb-ingress-controller:v1.1.9  # Consider using AWS Load Balancer Controller
+          image: docker.io/amazon/aws-alb-ingress-controller:v2.6.2 
 
       serviceAccountName: alb-ingress-controller
