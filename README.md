@@ -180,7 +180,7 @@ Once the DNS changes have propagated:
 
 ## Access The Application 🔗
 Access the application via the domain:
-http://www.devopsmoveoassignment.space/
+http://www.devopsassignment.space/
 
 Following these steps should enable you to set up public access to your NGINX application via a DNS name and verify its functionality.
 
@@ -197,7 +197,7 @@ For any inquiries, please reach out to ocarmeli7@gmail.com.
 
 ---
 
-© 2023 [Or Carmeli](https://github.com/or-carmeli) and Moveo Group. All Rights Reserved. 📜
+© 2023 [Or Carmeli](https://github.com/or-carmeli)  All Rights Reserved. 📜
 
 ---
 
