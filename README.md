@@ -30,7 +30,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment-
 ### Repository Setup
 Clone the repository to get started:
 ```bash
-git clone https://github.com/or-carmeli/DevOpsAssignment-Moveo.git
+git clone https://github.com/or-carmeli/DevOpsAssignment.git
 cd DevOpsAssignment-Moveo
 ```
 ## AWS Infrastructure Setup using Terraform ⚙️
