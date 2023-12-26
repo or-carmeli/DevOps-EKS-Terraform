@@ -19,7 +19,7 @@ This project outlines the setup and deployment process for the DevOpsAssignment 
 
 
 ## AWS Architecture 📊
-![AWS Architecture](https://i.ibb.co/7rkghKp/moveo-assignment-drawio-3.png)
+![AWS Architecture](https://i.ibb.co/RyhNvxm/Screenshot-from-2023-12-26-16-57-22.png)
 
 ## Prerequisites 📁
 - Install Terraform version v1.6.4.
